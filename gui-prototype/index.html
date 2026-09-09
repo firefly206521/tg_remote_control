@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TG AI 调度台本地任务管理界面。">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <title>TG AI · 任务工作台</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <div class="workspace">
+    <aside class="sidebar" aria-label="任务导航">
+      <div class="brand"><span class="brand-icon">↗</span><div>TG AI<span class="brand-sub">任务工作台</span></div><span class="version">01</span></div>
+      <button class="new-task" id="new-task"><span>＋</span> 新建任务 <kbd>N</kbd></button>
+      <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索任务" aria-label="搜索任务"></label>
+      <div class="list-heading"><span>我的任务</span><span id="task-count"></span></div>
+      <nav class="task-list" id="task-list" aria-label="选择任务"></nav>
+      <div class="sidebar-bottom"><span class="avatar small">F</span><div>本地工作空间<small>Telegram 调度器</small></div><span class="local-dot" title="本机连接"></span></div>
+    </aside>
+    <main>
+      <div class="demo-bar"><span><i></i> 本机连接</span><p>网页和 Telegram 共用任务，网页选择不会改变 Telegram 当前任务</p><span class="offline-label" id="connection-state">正在连接</span></div>
+      <header class="task-header">
+        <div class="title-group"><div class="breadcrumb">工作空间 <span>/</span> 任务</div><h1 id="task-title"></h1><p id="task-subtitle"></p></div>
+        <button id="details-toggle" class="outline-button" aria-expanded="true" aria-controls="task-details">任务信息</button>
+      </header>
+      <section class="task-details" id="task-details" aria-label="任务信息">
+        <div><span class="detail-label">执行助手</span><strong id="agent-value"></strong></div>
+        <div class="directory"><span class="detail-label">工作目录</span><strong id="directory-value"></strong></div>
+        <div><span class="detail-label">执行状态</span><strong id="status-value"></strong></div>
+      </section>
+      <div class="conversation-heading"><span>对话记录 <small id="message-count"></small></span><span class="sim-label">升级后记录</span></div>
+      <section class="messages" id="messages" aria-label="当前任务对话" tabindex="0"></section>
+      <button id="latest" class="latest" hidden>↓ 回到最新消息</button>
+      <div class="composer-area">
+        <div class="activity-strip"><span id="activity" role="status"></span><button id="stop-task" class="stop-button">■ 停止任务</button></div>
+        <form class="composer" id="composer">
+          <label for="prompt" class="sr-only">给当前任务发送消息</label>
+          <textarea id="prompt" rows="2" placeholder="继续这个任务…"></textarea>
+          <div class="composer-footer"><span id="draft-hint">草稿随任务保留</span><button id="send" type="submit">发送 <span aria-hidden="true">↗</span></button></div>
+        </form>
+        <div class="composer-note"><span>Enter 发送 · Shift + Enter 换行</span><span>消息将发送给当前选中的任务</span></div>
+      </div>
+    </main>
+  </div>
+  <dialog id="new-dialog" aria-labelledby="dialog-title">
+    <form id="create-form">
+      <div class="dialog-header"><div><span class="eyebrow">新的工作上下文</span><h2 id="dialog-title">新建任务</h2></div><button id="close-dialog" type="button" class="icon-button" aria-label="关闭">×</button></div>
+      <label>任务名称<input id="new-name" required maxlength="40" placeholder="例如：整理实验结果" autocomplete="off"></label>
+      <label>执行助手<select id="new-agent"><option value="Claude">Claude</option><option value="Codex">Codex</option></select></label>
+      <label>工作目录<input id="new-directory" value="C:\projects" required maxlength="260"></label>
+      <p class="dialog-note">创建后即可在网页或 Telegram 中继续使用此任务。</p>
+      <p id="create-error" role="alert"></p>
+      <div class="dialog-actions"><button id="cancel-dialog" type="button" class="outline-button">取消</button><button type="submit" class="primary-button">创建任务</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
