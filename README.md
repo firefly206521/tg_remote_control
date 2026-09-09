@@ -143,15 +143,3 @@ node --check gui-prototype/app.js
 ```
 
 Python 测试验证调度、流式输出、双 Bot 隔离与 Web API；Node 命令只做前端脚本语法检查。
-
-## 开源发布说明
-
-该副本采用源码白名单方式整理，只包含程序、测试、静态资源和说明文件。运行后产生的
-状态、消息历史、日志、GUI 凭据和 cc-switch 配置备份均由 `.gitignore` 排除。发布前请再执行：
-
-```powershell
-git status --short --ignored
-```
-
-确认没有把本机配置或运行数据加入暂存区。若真实 token 曾进入任何待发布目录或 Git 历史，
-请先吊销并重新生成，再发布。
